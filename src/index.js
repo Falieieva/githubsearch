@@ -135,19 +135,14 @@ const handleInput = async (event) => {
     return;
   }
 
+  const api = new API();
+
   try {
-    const api = new API();
     const user = await api.getUser(userText);
+    const repositories = await api.getRepositories(userText);
 
     ui.showProfile(user);
-
-    try {
-      const repositories = await api.getRepositories(userText);
-      ui.showRepositories(repositories);
-    } catch (error) {
-      ui.showAlert(error.message, "alert-danger");
-    }
-
+    ui.showRepositories(repositories);
   } catch (error) {
     ui.showAlert(error.message, "alert-danger");
     ui.clearProfile();
